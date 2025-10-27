@@ -190,7 +190,7 @@ export default function Home() {
 <input
   type="text"
   readOnly
-  value="a.minardi@euroimmun.de"
+  value="https://www.wsj.com/market-data/currencies/exchangeratese"
   style={{
     width: "100%",
     padding: "8px",
