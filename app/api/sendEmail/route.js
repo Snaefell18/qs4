@@ -28,12 +28,13 @@ export async function POST(req) {
       <p>hier die WSJ-Wechselkurse vom <strong>${datum}</strong> um <strong>${uhrzeit}</strong>.</p>
       <p><img src="${imageUrl}" alt="WSJ Screenshot" style="max-width:600px;border:1px solid #ccc;border-radius:8px;margin-top:10px;margin-bottom:10px;"></p>
       <p>Alternativ als Download: <a href="${imageUrl}" target="_blank">${imageUrl}</a></p>
-      <p>Liebe Grüße<br>Jan</p>
+      <p>Liebe Grüße</p>
+      <p>Jan</p>
     `;
 
     // E-Mail senden
     const data = await resend.emails.send({
-      from: "Wechselkurse App <onboarding@resend.dev>",
+      from: "Jan Rentzsch <onboarding@resend.dev>", // ✅ Absendername
       to: "jan.rentzsch@googlemail.com",
       subject: `WSJ-Wechselkurse vom ${datum}`,
       html,
