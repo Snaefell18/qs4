@@ -14,30 +14,30 @@ export default function Home() {
   }
 
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen p-8 bg-gray-50 text-center">
-      {/* Header-Bild */}
+    <main className="flex flex-col items-center justify-center min-h-screen bg-gray-50 text-center px-4">
+      {/* Titelbild */}
       <img
         src="/titel.png"
         alt="Wechselkurse-Screenshot-App"
-        className="max-w-md mb-6"
+        className="max-w-md mb-8"
       />
 
       {/* Button */}
       <button
         onClick={handleClick}
-        className="bg-blue-600 text-white px-5 py-2 rounded-md hover:bg-blue-700 transition mb-8"
+        className="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition mb-8"
         disabled={loading}
       >
         {loading ? "Lädt..." : "Screenshot laden"}
       </button>
 
-      {/* Screenshot-Anzeige */}
+      {/* Screenshot */}
       {imageUrl && (
-        <div className="mt-8">
+        <div className="mt-6">
           <img
             src={imageUrl}
             alt="Screenshot"
-            className="max-w-full border rounded shadow-md"
+            className="max-w-full border rounded shadow-lg"
           />
         </div>
       )}
