@@ -1,8 +1,14 @@
-"use client";
-import { useState } from "react";
-import "./globals.css";
-
 export default function Home() {
+  return null; // komplett leer
+}
+
+
+
+' "use client";
+'import { useState } from "react";
+'import "./globals.css";
+
+'export default function Home() {
   const [imageUrl, setImageUrl] = useState(null);
   const [loading, setLoading] = useState(false);
   const [sending, setSending] = useState(false);
