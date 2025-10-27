@@ -28,7 +28,7 @@ export default function Home() {
   return (
     <main className="page">
       <div className="container fade-in">
-        {/* Titelbild (aus /public/titel.png) */}
+        {/* Titelbild */}
         <img
           src="/titel.png"
           alt="Wechselkurse-Screenshot-App"
@@ -37,13 +37,12 @@ export default function Home() {
 
         {/* Button */}
         <button className="button" onClick={handleClick} disabled={loading}>
-          {loading ? "Lädt..." : "Screenshot laden"}
+          {loading ? "Lädt..." : "WSJ-Wechselkurse laden"}
         </button>
 
-        {/* Fehleranzeige */}
         {error && <div style={{ color: "#b91c1c", marginBottom: 16 }}>{error}</div>}
 
-        {/* Screenshot (klein) */}
+        {/* Screenshot */}
         {imageUrl && (
           <img
             src={imageUrl}
@@ -54,7 +53,7 @@ export default function Home() {
         )}
       </div>
 
-      {/* Vollbild-Modal */}
+      {/* Vollbild */}
       {showFull && imageUrl && (
         <div className="modal" onClick={() => setShowFull(false)}>
           <img src={imageUrl} alt="Screenshot groß" />
