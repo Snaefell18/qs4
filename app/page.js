@@ -145,7 +145,7 @@ export default function Home() {
             >
               <h2 style={{ textAlign: "center", marginBottom: "20px" }}>Einstellungen</h2>
 
-              <label style={{ fontWeight: "bold" }}>Automatische Monate:</label>
+              <label style={{ fontWeight: "bold" }}>Automatischer Versand im:</label>
               <div
                 style={{
                   display: "grid",
@@ -186,7 +186,7 @@ export default function Home() {
               <input
                 type="text"
                 readOnly
-                value="a.minardi@euroimmun.de"
+                value="https://www.wsj.com/market-data/currencies/exchangerates"
                 style={{
                   width: "100%",
                   padding: "8px",
