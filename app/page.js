@@ -13,7 +13,7 @@ export default function Home() {
 
   // Einstellungen
   const [months, setMonths] = useState(["1", "4", "7", "10"]); // Standard Quartale
-  const [email, setEmail] = useState("jan.rentzsch@googlemail.com");
+  const [email, setEmail] = useState("a.minardi@euroimmun.de");
 
   const monthNames = {
     1: "Januar",
