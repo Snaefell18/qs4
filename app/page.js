@@ -186,60 +186,22 @@ export default function Home() {
                 }}
               />
 
-              <label style={{ fontWeight: "bold" }}>Quelle:</label>
-              <textarea
-                readOnly
-                value={`import { Resend } from "resend";
-
-const resend = new Resend(process.env.RESEND_API_KEY);
-
-export async function POST(req) {
-  try {
-    const { imageUrl } = await req.json();
-
-    if (!imageUrl) {
-      return new Response(JSON.stringify({ error: "Kein Bild angegeben" }), { status: 400 });
-    }
-
-    const now = new Date();
-    const datum = now.toLocaleDateString("de-DE");
-    const uhrzeit = now.toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" });
-
-    const html = \`
-      <p>Hey Adri,</p>
-      <p>hier die WSJ-Wechselkurse vom <strong>\${datum}</strong> um <strong>\${uhrzeit}</strong>.</p>
-      <p><img src="\${imageUrl}" /></p>
-      <p>Liebe Grüße</p>
-      <p>Jan</p>
-    \`;
-
-    const data = await resend.emails.send({
-      from: "Jan Rentzsch <onboarding@resend.dev>",
-      to: "jan.rentzsch@googlemail.com",
-      subject: \`WSJ-Wechselkurse vom \${datum}\`,
-      html,
-    });
-
-    return new Response(JSON.stringify({ success: true, data }), {
-      headers: { "Content-Type": "application/json" },
-    });
-  } catch (err) {
-    console.error(err);
-    return new Response(JSON.stringify({ error: "Fehler beim Senden der Mail" }), { status: 500 });
-  }
-}`}
-                style={{
-                  width: "100%",
-                  height: "240px",
-                  fontFamily: "monospace",
-                  background: "#f9fafb",
-                  color: "#111",
-                  border: "1px solid #e5e7eb",
-                  borderRadius: "6px",
-                  padding: "8px",
-                  resize: "none",
-                }}
-              />
+<label style={{ fontWeight: "bold" }}>Quelle:</label>
+<input
+  type="text"
+  readOnly
+  value="a.minardi@euroimmun.de"
+  style={{
+    width: "100%",
+    padding: "8px",
+    marginTop: "6px",
+    border: "1px solid #d1d5db",
+    borderRadius: "6px",
+    background: "#f9fafb",
+    color: "#111",
+    fontFamily: "monospace",
+  }}
+/>
 
               <div style={{ textAlign: "center", marginTop: "20px" }}>
                 <button
