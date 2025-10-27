@@ -15,39 +15,41 @@ export default function Home() {
   }
 
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen bg-gray-50 text-center p-4">
-      {/* Titelbild */}
-      <img
-        src="/titel.png"
-        alt="Wechselkurse-Screenshot-App"
-        className="w-full max-w-lg h-auto mb-10 object-contain"
-      />
+    <main className="flex flex-col items-center justify-center min-h-screen bg-gray-100 text-center p-4">
+      <div className="flex flex-col items-center justify-center w-full max-w-3xl">
+        {/* Titelbild */}
+        <img
+          src="/titel.png"
+          alt="Wechselkurse-Screenshot-App"
+          className="w-full max-w-xl h-auto object-contain mb-10"
+        />
 
-      {/* Button */}
-      <button
-        onClick={handleClick}
-        className="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition mb-10 shadow-md disabled:opacity-50"
-        disabled={loading}
-      >
-        {loading ? "Lädt..." : "Screenshot laden"}
-      </button>
+        {/* Button */}
+        <button
+          onClick={handleClick}
+          className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition shadow-md mb-10 disabled:opacity-50"
+          disabled={loading}
+        >
+          {loading ? "Lädt..." : "Screenshot laden"}
+        </button>
 
-      {/* Screenshot-Vorschau */}
-      {imageUrl && (
-        <div className="mt-4 cursor-zoom-in">
-          <img
-            src={imageUrl}
-            alt="Screenshot"
-            onClick={() => setShowFull(true)}
-            className="max-w-xs sm:max-w-md rounded shadow-lg transition-transform hover:scale-105"
-          />
-        </div>
-      )}
+        {/* Screenshot-Vorschau */}
+        {imageUrl && (
+          <div className="cursor-zoom-in flex justify-center">
+            <img
+              src={imageUrl}
+              alt="Screenshot"
+              onClick={() => setShowFull(true)}
+              className="max-w-sm sm:max-w-md rounded-lg shadow-lg transition-transform hover:scale-105"
+            />
+          </div>
+        )}
+      </div>
 
-      {/* Vollbild-Ansicht */}
+      {/* Vollbildansicht */}
       {showFull && (
         <div
-          className="fixed inset-0 bg-black/80 flex items-center justify-center z-50"
+          className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 cursor-zoom-out"
           onClick={() => setShowFull(false)}
         >
           <img
