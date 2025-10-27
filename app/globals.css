@@ -3,58 +3,66 @@
 html, body { height: 100%; margin: 0; }
 body {
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-  background: #f3f4f6; /* helles Grau */
+  background: #ffffff; /* ✅ Weißer Hintergrund */
   color: #111827;
 }
 
 /* Zentrierter Canvas */
 .page {
-  min-height: 100svh;            /* volle Höhe, auch mobil */
+  min-height: 100svh;
   display: grid;
-  place-items: center;           /* horizontal + vertikal zentriert */
+  place-items: center;
   padding: 24px;
 }
 
 .container {
-  width: min(96vw, 960px);       /* max Breite */
+  width: min(96vw, 960px);
   display: flex;
   flex-direction: column;
-  align-items: center;           /* zentriert untereinander */
+  align-items: center;
   text-align: center;
 }
 
-/* Titelbild responsiv, aber nicht zu groß */
+/* Titelbild responsiv */
 .title-image {
   width: 100%;
-  max-width: 640px;  /* „bis zu einem maximalen Level, das noch gut aussieht“ */
+  max-width: 640px;
   height: auto;
   object-fit: contain;
   margin: 0 0 32px 0;
 }
 
-/* Button */
+/* Neuer Button-Stil */
 .button {
-  background: #2563eb;
-  color: white;
-  border: 0;
-  border-radius: 10px;
-  padding: 12px 20px;
+  background: #1f1f1f;           /* Schwarz */
+  color: #f5f5f5;                /* Hellgrau */
+  border: 1px solid #2f2f2f;
+  border-radius: 8px;
+  padding: 12px 24px;
   font-size: 16px;
   cursor: pointer;
-  margin-bottom: 32px; /* Abstand unter dem Button */
-  box-shadow: 0 6px 16px rgba(37, 99, 235, .25);
+  margin-bottom: 32px;
+  box-shadow: 0 3px 8px rgba(0,0,0,.1);
+  transition: all .25s ease;
 }
-.button:hover { background: #1d4ed8; }
-.button:disabled { opacity: .6; cursor: not-allowed; }
+.button:hover {
+  background: #333333;
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+.button:disabled {
+  opacity: .6;
+  cursor: not-allowed;
+}
 
-/* Screenshot klein in der Seite */
+/* Screenshot klein */
 .screenshot-thumb {
-  max-width: 560px;     /* passt ins Design */
+  max-width: 560px;
   width: 100%;
   height: auto;
   border-radius: 12px;
   border: 1px solid #e5e7eb;
-  box-shadow: 0 10px 24px rgba(0,0,0,.08);
+  box-shadow: 0 6px 16px rgba(0,0,0,.08);
   cursor: zoom-in;
 }
 
@@ -78,7 +86,7 @@ body {
   cursor: zoom-out;
 }
 
-/* Kleine Fade-In Animation (optional, aber nice) */
+/* Fade-In */
 .fade-in {
   animation: fade .3s ease-out both;
 }
