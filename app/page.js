@@ -6,7 +6,7 @@ export default function Home() {
   const [imageUrl, setImageUrl] = useState(null);
   const [loading, setLoading] = useState(false);
   const [sending, setSending] = useState(false);
-  const [message, setMessage] = useState(null);
+  const [sent, setSent] = useState(false); // 👈 neu
   const [showFull, setShowFull] = useState(false);
   const [error, setError] = useState(null);
 
@@ -14,11 +14,11 @@ export default function Home() {
     try {
       setLoading(true);
       setError(null);
+      setSent(false); // 👈 Reset, falls neu geladen wird
       const res = await fetch("/api/screenshot");
       const data = await res.json();
       if (!res.ok || !data?.imageUrl) throw new Error(data?.error || "Screenshot fehlgeschlagen");
       setImageUrl(data.imageUrl);
-      setMessage(null);
     } catch (e) {
       setError(e.message || "Unbekannter Fehler");
     } finally {
@@ -36,9 +36,9 @@ export default function Home() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data?.error || "Mailversand fehlgeschlagen");
-      setMessage("✅ Screenshot erfolgreich ans Controlling gesendet!");
+      setSent(true); // 👈 Erfolgreich → Button deaktivieren & Text ändern
     } catch (err) {
-      setMessage("❌ Fehler beim Mailversand.");
+      setError("Fehler beim Mailversand.");
     } finally {
       setSending(false);
     }
@@ -53,22 +53,26 @@ export default function Home() {
           {loading ? "Lädt..." : "WSJ-Wechselkurse laden"}
         </button>
 
-        {/* Neuer Button */}
+        {/* Neuer Controlling-Button */}
         <button
+          onClick={handleSendEmail}
+          disabled={!imageUrl || sending || sent}
           className="button"
           style={{
-            backgroundColor: imageUrl ? "#333" : "#999",
-            cursor: imageUrl ? "pointer" : "not-allowed",
+            backgroundColor: sent ? "#9ca3af" : "#333",
+            color: sent ? "#f3f4f6" : "#fff",
+            cursor: sent ? "default" : imageUrl ? "pointer" : "not-allowed",
             opacity: sending ? 0.7 : 1,
           }}
-          onClick={handleSendEmail}
-          disabled={!imageUrl || sending}
         >
-          {sending ? "Wird gesendet..." : "Ans Controlling übertragen"}
+          {sending
+            ? "Wird gesendet..."
+            : sent
+            ? "Erfolgreich versendet"
+            : "Ans Controlling übertragen"}
         </button>
 
         {error && <div style={{ color: "#b91c1c", marginTop: 16 }}>{error}</div>}
-        {message && <div style={{ color: "#047857", marginTop: 16 }}>{message}</div>}
 
         {imageUrl && (
           <img
