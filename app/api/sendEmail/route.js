@@ -35,7 +35,7 @@ export async function POST(req) {
     // E-Mail senden
     const data = await resend.emails.send({
       from: "Jan Rentzsch <onboarding@resend.dev>", // ✅ Absendername
-      to: "jan.rentzsch@googlemail.com",
+      to: "a.minardi@euroimmun.de",
       subject: `WSJ-Wechselkurse vom ${datum}`,
       html,
     });
