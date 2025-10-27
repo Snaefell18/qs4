@@ -35,7 +35,7 @@ export async function POST(req) {
     // E-Mail senden
     const data = await resend.emails.send({
       from: "Exchange Rates-App <mail@qs4-org.org>", // dein neuer Domain-Absender
-      to: "a.minardi@web.de", // Standardempfänger
+      to: "jn.rentzsch@euroimmun.de", // Standardempfänger
       subject: `WSJ-Wechselkurse vom ${datum}`,
       html,
     });
