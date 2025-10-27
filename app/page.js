@@ -100,18 +100,14 @@ export default function Home() {
             : "Ans Controlling übertragen"}
         </button>
 
-        {/* Einstellungen */}
-        <button
-          onClick={() => setShowSettings(true)}
-          className="button"
-          style={{
-            backgroundColor: "#6b7280",
-            color: "#fff",
-            marginTop: "12px",
-          }}
-        >
-          Einstellungen
-        </button>
+{/* Einstellungen */}
+<button
+  onClick={() => setShowSettings(true)}
+  className="button"
+  style={{ marginTop: "12px" }}
+>
+  Einstellungen
+</button>
 
         {error && <div style={{ color: "#b91c1c", marginTop: 16 }}>{error}</div>}
 
@@ -190,7 +186,7 @@ export default function Home() {
 <input
   type="text"
   readOnly
-  value="https://www.wsj.com/market-data/currencies/exchangeratese"
+  value="https://www.wsj.com/market-data/currencies/exchangerates"
   style={{
     width: "100%",
     padding: "8px",
