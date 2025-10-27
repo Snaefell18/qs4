@@ -6,15 +6,35 @@ export default function Home() {
   const [imageUrl, setImageUrl] = useState(null);
   const [loading, setLoading] = useState(false);
   const [sending, setSending] = useState(false);
-  const [sent, setSent] = useState(false); // 👈 neu
+  const [sent, setSent] = useState(false);
   const [showFull, setShowFull] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
   const [error, setError] = useState(null);
+
+  // Einstellungen
+  const [months, setMonths] = useState(["1", "4", "7", "10"]); // Standard Quartale
+  const [email, setEmail] = useState("jan.rentzsch@googlemail.com");
+
+  const monthNames = {
+    1: "Januar",
+    2: "Februar",
+    3: "März",
+    4: "April",
+    5: "Mai",
+    6: "Juni",
+    7: "Juli",
+    8: "August",
+    9: "September",
+    10: "Oktober",
+    11: "November",
+    12: "Dezember",
+  };
 
   async function handleScreenshot() {
     try {
       setLoading(true);
       setError(null);
-      setSent(false); // 👈 Reset, falls neu geladen wird
+      setSent(false);
       const res = await fetch("/api/screenshot");
       const data = await res.json();
       if (!res.ok || !data?.imageUrl) throw new Error(data?.error || "Screenshot fehlgeschlagen");
@@ -36,7 +56,7 @@ export default function Home() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data?.error || "Mailversand fehlgeschlagen");
-      setSent(true); // 👈 Erfolgreich → Button deaktivieren & Text ändern
+      setSent(true);
     } catch (err) {
       setError("Fehler beim Mailversand.");
     } finally {
@@ -44,16 +64,24 @@ export default function Home() {
     }
   }
 
+  // Monat ändern
+  function toggleMonth(num) {
+    setMonths((prev) =>
+      prev.includes(num) ? prev.filter((m) => m !== num) : [...prev, num]
+    );
+  }
+
   return (
     <main className="page">
       <div className="container fade-in">
         <img src="/titel.png" alt="Wechselkurse-Screenshot-App" className="title-image" />
 
+        {/* Screenshot laden */}
         <button className="button" onClick={handleScreenshot} disabled={loading}>
           {loading ? "Lädt..." : "WSJ-Wechselkurse laden"}
         </button>
 
-        {/* Neuer Controlling-Button */}
+        {/* Mail senden */}
         <button
           onClick={handleSendEmail}
           disabled={!imageUrl || sending || sent}
@@ -72,6 +100,19 @@ export default function Home() {
             : "Ans Controlling übertragen"}
         </button>
 
+        {/* Einstellungen */}
+        <button
+          onClick={() => setShowSettings(true)}
+          className="button"
+          style={{
+            backgroundColor: "#6b7280",
+            color: "#fff",
+            marginTop: "12px",
+          }}
+        >
+          Einstellungen
+        </button>
+
         {error && <div style={{ color: "#b91c1c", marginTop: 16 }}>{error}</div>}
 
         {imageUrl && (
@@ -83,9 +124,137 @@ export default function Home() {
           />
         )}
 
+        {/* Screenshot Vollbild */}
         {showFull && imageUrl && (
           <div className="modal" onClick={() => setShowFull(false)}>
             <img src={imageUrl} alt="Screenshot groß" />
+          </div>
+        )}
+
+        {/* Einstellungs-Modal */}
+        {showSettings && (
+          <div className="modal" onClick={() => setShowSettings(false)}>
+            <div
+              className="settings-box fade-in"
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                backgroundColor: "white",
+                padding: "24px",
+                borderRadius: "12px",
+                width: "min(90vw, 600px)",
+                maxHeight: "90vh",
+                overflowY: "auto",
+                textAlign: "left",
+              }}
+            >
+              <h2 style={{ textAlign: "center", marginBottom: "20px" }}>Einstellungen</h2>
+
+              <label style={{ fontWeight: "bold" }}>Automatische Monate:</label>
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr 1fr",
+                  gap: "6px",
+                  marginBottom: "20px",
+                  marginTop: "8px",
+                }}
+              >
+                {Object.entries(monthNames).map(([num, name]) => (
+                  <label key={num}>
+                    <input
+                      type="checkbox"
+                      checked={months.includes(num)}
+                      onChange={() => toggleMonth(num)}
+                    />{" "}
+                    {name}
+                  </label>
+                ))}
+              </div>
+
+              <label style={{ fontWeight: "bold" }}>Empfängeradresse:</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                style={{
+                  width: "100%",
+                  padding: "8px",
+                  marginTop: "6px",
+                  marginBottom: "20px",
+                  border: "1px solid #d1d5db",
+                  borderRadius: "6px",
+                }}
+              />
+
+              <label style={{ fontWeight: "bold" }}>Quelle:</label>
+              <textarea
+                readOnly
+                value={`import { Resend } from "resend";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+export async function POST(req) {
+  try {
+    const { imageUrl } = await req.json();
+
+    if (!imageUrl) {
+      return new Response(JSON.stringify({ error: "Kein Bild angegeben" }), { status: 400 });
+    }
+
+    const now = new Date();
+    const datum = now.toLocaleDateString("de-DE");
+    const uhrzeit = now.toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" });
+
+    const html = \`
+      <p>Hey Adri,</p>
+      <p>hier die WSJ-Wechselkurse vom <strong>\${datum}</strong> um <strong>\${uhrzeit}</strong>.</p>
+      <p><img src="\${imageUrl}" /></p>
+      <p>Liebe Grüße</p>
+      <p>Jan</p>
+    \`;
+
+    const data = await resend.emails.send({
+      from: "Jan Rentzsch <onboarding@resend.dev>",
+      to: "jan.rentzsch@googlemail.com",
+      subject: \`WSJ-Wechselkurse vom \${datum}\`,
+      html,
+    });
+
+    return new Response(JSON.stringify({ success: true, data }), {
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (err) {
+    console.error(err);
+    return new Response(JSON.stringify({ error: "Fehler beim Senden der Mail" }), { status: 500 });
+  }
+}`}
+                style={{
+                  width: "100%",
+                  height: "240px",
+                  fontFamily: "monospace",
+                  background: "#f9fafb",
+                  color: "#111",
+                  border: "1px solid #e5e7eb",
+                  borderRadius: "6px",
+                  padding: "8px",
+                  resize: "none",
+                }}
+              />
+
+              <div style={{ textAlign: "center", marginTop: "20px" }}>
+                <button
+                  onClick={() => setShowSettings(false)}
+                  className="button"
+                  style={{
+                    backgroundColor: "#111",
+                    color: "#fff",
+                    marginTop: "10px",
+                  }}
+                >
+                  Schließen
+                </button>
+              </div>
+            </div>
           </div>
         )}
       </div>
