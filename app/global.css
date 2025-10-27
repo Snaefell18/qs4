@@ -1,0 +1,88 @@
+/* Reset & Base */
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+body {
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+  background: #f3f4f6; /* helles Grau */
+  color: #111827;
+}
+
+/* Zentrierter Canvas */
+.page {
+  min-height: 100svh;            /* volle Höhe, auch mobil */
+  display: grid;
+  place-items: center;           /* horizontal + vertikal zentriert */
+  padding: 24px;
+}
+
+.container {
+  width: min(96vw, 960px);       /* max Breite */
+  display: flex;
+  flex-direction: column;
+  align-items: center;           /* zentriert untereinander */
+  text-align: center;
+}
+
+/* Titelbild responsiv, aber nicht zu groß */
+.title-image {
+  width: 100%;
+  max-width: 640px;  /* „bis zu einem maximalen Level, das noch gut aussieht“ */
+  height: auto;
+  object-fit: contain;
+  margin: 0 0 32px 0;
+}
+
+/* Button */
+.button {
+  background: #2563eb;
+  color: white;
+  border: 0;
+  border-radius: 10px;
+  padding: 12px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-bottom: 32px; /* Abstand unter dem Button */
+  box-shadow: 0 6px 16px rgba(37, 99, 235, .25);
+}
+.button:hover { background: #1d4ed8; }
+.button:disabled { opacity: .6; cursor: not-allowed; }
+
+/* Screenshot klein in der Seite */
+.screenshot-thumb {
+  max-width: 560px;     /* passt ins Design */
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 10px 24px rgba(0,0,0,.08);
+  cursor: zoom-in;
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.8);
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  z-index: 50;
+}
+.modal img {
+  max-width: 90vw;
+  max-height: 90vh;
+  border-radius: 12px;
+  box-shadow: 0 24px 64px rgba(0,0,0,.5);
+  object-fit: contain;
+  background: #fff;
+  cursor: zoom-out;
+}
+
+/* Kleine Fade-In Animation (optional, aber nice) */
+.fade-in {
+  animation: fade .3s ease-out both;
+}
+@keyframes fade {
+  from { opacity: 0; transform: translateY(4px) scale(.995); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
