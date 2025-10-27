@@ -1,62 +1,63 @@
 "use client";
 import { useState } from "react";
+import "./globals.css";
 
 export default function Home() {
   const [imageUrl, setImageUrl] = useState(null);
   const [loading, setLoading] = useState(false);
   const [showFull, setShowFull] = useState(false);
+  const [error, setError] = useState(null);
 
   async function handleClick() {
-    setLoading(true);
-    const res = await fetch("/api/screenshot");
-    const data = await res.json();
-    setImageUrl(data.imageUrl);
-    setLoading(false);
+    try {
+      setLoading(true);
+      setError(null);
+      const res = await fetch("/api/screenshot");
+      const data = await res.json();
+      if (!res.ok || !data?.imageUrl) {
+        throw new Error(data?.error || "Screenshot fehlgeschlagen");
+      }
+      setImageUrl(data.imageUrl);
+    } catch (e) {
+      setError(e.message || "Unbekannter Fehler");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen bg-gray-100 text-center p-4">
-      <div className="flex flex-col items-center justify-center w-full max-w-3xl">
-        {/* Titelbild */}
+    <main className="page">
+      <div className="container fade-in">
+        {/* Titelbild (aus /public/titel.png) */}
         <img
           src="/titel.png"
           alt="Wechselkurse-Screenshot-App"
-          className="w-full max-w-xl h-auto object-contain mb-10"
+          className="title-image"
         />
 
         {/* Button */}
-        <button
-          onClick={handleClick}
-          className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition shadow-md mb-10 disabled:opacity-50"
-          disabled={loading}
-        >
+        <button className="button" onClick={handleClick} disabled={loading}>
           {loading ? "Lädt..." : "Screenshot laden"}
         </button>
 
-        {/* Screenshot-Vorschau */}
+        {/* Fehleranzeige */}
+        {error && <div style={{ color: "#b91c1c", marginBottom: 16 }}>{error}</div>}
+
+        {/* Screenshot (klein) */}
         {imageUrl && (
-          <div className="cursor-zoom-in flex justify-center">
-            <img
-              src={imageUrl}
-              alt="Screenshot"
-              onClick={() => setShowFull(true)}
-              className="max-w-sm sm:max-w-md rounded-lg shadow-lg transition-transform hover:scale-105"
-            />
-          </div>
+          <img
+            src={imageUrl}
+            alt="Screenshot"
+            className="screenshot-thumb fade-in"
+            onClick={() => setShowFull(true)}
+          />
         )}
       </div>
 
-      {/* Vollbildansicht */}
-      {showFull && (
-        <div
-          className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 cursor-zoom-out"
-          onClick={() => setShowFull(false)}
-        >
-          <img
-            src={imageUrl}
-            alt="Screenshot groß"
-            className="max-h-[90vh] max-w-[90vw] rounded-lg shadow-2xl object-contain"
-          />
+      {/* Vollbild-Modal */}
+      {showFull && imageUrl && (
+        <div className="modal" onClick={() => setShowFull(false)}>
+          <img src={imageUrl} alt="Screenshot groß" />
         </div>
       )}
     </main>
