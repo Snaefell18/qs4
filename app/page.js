@@ -145,7 +145,7 @@ export default function Home() {
             >
               <h2 style={{ textAlign: "center", marginBottom: "20px" }}>Einstellungen</h2>
 
-              <label style={{ fontWeight: "bold" }}>Automatische Monate:</label>
+              <label style={{ fontWeight: "bold" }}>Automatisch senden im:</label>
               <div
                 style={{
                   display: "grid",
