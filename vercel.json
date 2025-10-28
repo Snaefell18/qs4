@@ -2,7 +2,7 @@
   "crons": [
     {
       "path": "/api/autoSend",
-      "schedule": "0 3 * * *"
+      "schedule": "0 12 * * *"
     }
   ]
 }
