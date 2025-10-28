@@ -2,7 +2,7 @@
   "crons": [
     {
       "path": "/api/autoSend",
-      "schedule": "0 3 * * *" // jeden Tag 03:00 Uhr prüfen
+      "schedule": "0 3 * * *"
     }
   ]
 }
