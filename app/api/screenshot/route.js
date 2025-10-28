@@ -5,7 +5,7 @@ export const runtime = "edge";
 export async function GET() {
   try {
     const microlinkUrl =
-      "https://api.microlink.io/?url=https://www.wsj.com/market-data/currencies/exchangerates?nocache=${Date.now()}&screenshot=true&meta=false&fullPage=true";
+      "https://api.microlink.io/?url=https://www.wsj.com/market-data/currencies/exchangerates?nocache=23&screenshot=true&meta=false&fullPage=true";
 
     const res = await fetch(microlinkUrl);
     const data = await res.json();
