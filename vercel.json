@@ -1,8 +1,8 @@
 {
   "crons": [
     {
-      "path": "/api/screenshot",
-      "schedule": "0 9 1 1,4,7,10 *"
+      "path": "/api/autoSend",
+      "schedule": "0 7 * * *" // jeden Tag 07:00 Uhr prüfen
     }
   ]
 }
