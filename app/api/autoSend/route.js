@@ -63,7 +63,7 @@ export async function GET() {
 
     // Screenshot erzeugen (Microlink)
     const mRes = await fetch(
-      "https://api.microlink.io/?url=https://www.wsj.com/market-data/currencies/exchangerates&screenshot=true&meta=false&fullPage=true"
+      "https://api.microlink.io/?url=https://www.wsj.com/market-data/currencies/exchangerates/&screenshot=true&meta=false&fullPage=true"
     );
     const mJson = await mRes.json();
     const imageUrl = mJson?.data?.screenshot?.url;
