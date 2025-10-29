@@ -91,7 +91,7 @@ export async function GET() {
 
     const resend = new Resend(process.env.RESEND_API_KEY);
     await resend.emails.send({
-      from: "Exchange Rates-App <mail@qs4-org.org>",
+      from: "Exchange Rates-App <mail@laerby.com>",
       to: "a.minardi@euroimmun.de",
       subject: `WSJ-Wechselkurse vom ${datum}`,
       html,
