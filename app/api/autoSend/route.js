@@ -23,20 +23,28 @@ function isHoliday(date) {
 
 function isFirstWorkingDayAfterQuarterEnd(date) {
   const year = date.getFullYear();
+
+  // KORREKTUR: Wir fügen den 31.12. des VORJAHRES hinzu.
+  // Ohne das würde der Check im Januar fehlschlagen, da er sonst nur
+  // Quartalsenden in der Zukunft (Ende des aktuellen Jahres) prüfen würde.
   const quarterEnds = [
-    new Date(year, 2, 31),  // 31.03.
-    new Date(year, 5, 30),  // 30.06.
-    new Date(year, 8, 30),  // 30.09.
-    new Date(year, 11, 31), // 31.12.
+    new Date(year - 1, 11, 31), // 31.12. Vorjahr (für den Januar-Versand)
+    new Date(year, 2, 31),      // 31.03.
+    new Date(year, 5, 30),      // 30.06.
+    new Date(year, 8, 30),      // 30.09.
+    new Date(year, 11, 31),     // 31.12. (für den nächsten Januar)
   ];
 
   return quarterEnds.some((end) => {
     const next = new Date(end);
-    next.setDate(end.getDate() + 1);
-    // auf ersten Arbeitstag schieben
+    next.setDate(end.getDate() + 1); // Ein Tag nach Quartalsende
+
+    // Auf ersten Arbeitstag schieben (Wochenende & Feiertage überspringen)
     while (isWeekend(next) || isHoliday(next)) {
       next.setDate(next.getDate() + 1);
     }
+
+    // Prüfen, ob das berechnete Datum mit "heute" übereinstimmt
     return (
       next.getDate() === date.getDate() &&
       next.getMonth() === date.getMonth() &&
@@ -45,7 +53,7 @@ function isFirstWorkingDayAfterQuarterEnd(date) {
   });
 }
 
-// Einmalige Ausführung am 28.10.2025
+// Einmalige Ausführung am 29.10.2025
 function isSpecialExecutionDay(date) {
   return date.getDate() === 29 && date.getMonth() === 9 && date.getFullYear() === 2025; // 9 = Oktober
 }
